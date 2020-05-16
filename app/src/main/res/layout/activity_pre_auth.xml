@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.PreAuthActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/pre_auth_nav_host"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +17,7 @@
 
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/pre_auth_navigation" />
+        app:navGraph="@navigation/pre_auth_navigation"
+        tools:ignore="FragmentTagUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
