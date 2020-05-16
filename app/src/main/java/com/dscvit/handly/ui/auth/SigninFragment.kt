@@ -24,9 +24,12 @@ class SigninFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val action = SigninFragmentDirections.actionSigninFragmentToSignupFragment()
-
         signup_instead_text.setOnClickListener {
             findNavController().navigate(action)
+        }
+
+        signin_button.setOnClickListener {
+
         }
     }
 }
