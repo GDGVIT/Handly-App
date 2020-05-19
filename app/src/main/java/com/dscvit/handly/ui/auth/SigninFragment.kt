@@ -1,5 +1,6 @@
 package com.dscvit.handly.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.dscvit.handly.R
 import com.dscvit.handly.model.Result
 import com.dscvit.handly.model.auth.SigninRequest
+import com.dscvit.handly.ui.PostAuthActivity
 import com.dscvit.handly.util.*
 import com.dscvit.handly.util.PrefHelper.set
 import com.github.ybq.android.spinkit.style.Wave
@@ -89,6 +91,10 @@ class SigninFragment : Fragment() {
                             if (it.data!!.message == "User Logged In") {
                                 sharedPref[Constants.PREF_IS_AUTH] = true
                                 sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
+
+                                val intent = Intent(requireContext(), PostAuthActivity::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
                                 shortToast("Signin Successful")
                             }
                             signin_progress.hide()
