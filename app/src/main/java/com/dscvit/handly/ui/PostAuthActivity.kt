@@ -6,6 +6,7 @@ import android.util.Log
 import com.dscvit.handly.R
 import com.dscvit.handly.util.Constants
 import com.dscvit.handly.util.PrefHelper
+import com.onesignal.OneSignal
 
 class PostAuthActivity : AppCompatActivity() {
 
@@ -15,5 +16,6 @@ class PostAuthActivity : AppCompatActivity() {
 
         val sharedPref = PrefHelper.customPrefs(this, Constants.PREF_NAME)
         Log.d("esh", sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")!!)
+        Log.d("esh", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
     }
 }

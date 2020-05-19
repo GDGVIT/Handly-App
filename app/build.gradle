@@ -6,6 +6,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
+def secretPropertiesFile = rootProject.file('secrets.properties')
+def secretProperties = new Properties()
+secretProperties.load(new FileInputStream(secretPropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -26,8 +30,10 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String", "ONESIGNAL_KEY", secretProperties['ONESIGNAL_KEY'])
+
         manifestPlaceholders = [
-                onesignal_app_id               : '7369bbb8-ba9a-4ee1-8dfb-3c52bbd69e3f',
+                onesignal_app_id               : secretProperties['ONESIGNAL_KEY'],
                 onesignal_google_project_number: 'REMOTE'
         ]
 
