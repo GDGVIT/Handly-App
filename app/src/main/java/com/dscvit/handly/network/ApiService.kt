@@ -23,6 +23,13 @@ object ApiService {
         val httpClient = OkHttpClient.Builder()
         val sharedPref = PrefHelper.customPrefs(context, Constants.PREF_NAME)
 
+        val token = sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")
+        val tokenStr = if (token != "") {
+            "Token $token"
+        } else {
+            ""
+        }
+
         httpClient.connectTimeout(25, TimeUnit.SECONDS)
         httpClient.readTimeout(25, TimeUnit.SECONDS)
 
@@ -35,7 +42,7 @@ object ApiService {
                 )
                 .addHeader(
                     "Authorization",
-                    "Token ${sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")}"
+                    tokenStr
                 )
             val request = requestBuilder.build()
             return@addInterceptor chain.proceed(request)
