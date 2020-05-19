@@ -102,6 +102,7 @@ class SignupFragment : Fragment() {
                         Result.Status.SUCCESS -> {
                             if (it.data!!.message == "User Logged In") {
                                 sharedPref[Constants.PREF_IS_AUTH] = true
+                                sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
                                 shortToast("Signup Successful")
                             }
                             signup_progress.hide()

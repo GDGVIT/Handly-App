@@ -7,10 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.dscvit.handly.R
-import com.dscvit.handly.util.isValidEmail
+import com.dscvit.handly.model.Result
+import com.dscvit.handly.model.auth.SigninRequest
+import com.dscvit.handly.util.*
+import com.dscvit.handly.util.PrefHelper.set
+import com.github.ybq.android.spinkit.style.Wave
+import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_signin.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
 class SigninFragment : Fragment() {
@@ -26,7 +33,13 @@ class SigninFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val authViewModel by sharedViewModel<AuthViewModel>()
+        val sharedPref = PrefHelper.customPrefs(requireContext(), Constants.PREF_NAME)
+
         val action = SigninFragmentDirections.actionSigninFragmentToSignupFragment()
+        signin_progress.hide()
+        signin_progress.setIndeterminateDrawable(Wave())
+
         signup_instead_text.setOnClickListener {
             findNavController().navigate(action)
         }
@@ -60,8 +73,59 @@ class SigninFragment : Fragment() {
             }
 
             if (email.isValidEmail() && password.length > 5) {
-                Log.d("esh", "Valid Login")
+                val signinRequest = SigninRequest(
+                    password,
+                    OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId ?: "",
+                    email
+                )
+
+                authViewModel.signinUser(signinRequest).observe(viewLifecycleOwner, Observer {
+                    when (it.status) {
+                        Result.Status.LOADING -> {
+                            hideUi()
+                            signin_progress.show()
+                        }
+                        Result.Status.SUCCESS -> {
+                            if (it.data!!.message == "User Logged In") {
+                                sharedPref[Constants.PREF_IS_AUTH] = true
+                                sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
+                                shortToast("Signin Successful")
+                            }
+                            signin_progress.hide()
+                        }
+                        Result.Status.ERROR -> {
+                            Log.d("esh", it.message!!)
+                            if (it.message == "400 Bad Request") {
+                                shortToast("Invalid credentials")
+                            } else {
+                                shortToast("Oops, Something wrong on our end")
+                            }
+                            signin_progress.hide()
+                            showUi()
+                        }
+                    }
+                })
             }
         }
+    }
+
+    private fun hideUi() {
+        titleText.hide()
+        logo.hide()
+        loginText.hide()
+        signin_email_text.hide()
+        signin_password_text.hide()
+        signup_instead_text.hide()
+        signin_button.hide()
+    }
+
+    private fun showUi() {
+        titleText.show()
+        logo.show()
+        loginText.show()
+        signin_email_text.show()
+        signin_password_text.show()
+        signup_instead_text.show()
+        signin_button.show()
     }
 }

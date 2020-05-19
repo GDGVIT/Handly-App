@@ -12,7 +12,7 @@ interface ApiInterface {
     @POST("user/create/")
     suspend fun signupUser(@Body signupRequest: SignupRequest): Response<AuthResponse>
 
-    @POST("user/login")
+    @POST("user/login/")
     suspend fun signinUser(@Body signinRequest: SigninRequest): Response<AuthResponse>
 
 }
