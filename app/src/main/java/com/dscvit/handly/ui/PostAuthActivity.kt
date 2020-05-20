@@ -17,17 +17,8 @@ class PostAuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_auth)
 
-        setupNavigation()
-
         val sharedPref = PrefHelper.customPrefs(this, Constants.PREF_NAME)
         Log.d("esh", sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")!!)
         Log.d("esh", OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
-    }
-
-    private fun setupNavigation() {
-        NavigationUI.setupWithNavController(
-            bottom_nav,
-            post_auth_nav_host.findNavController()
-        )
     }
 }
