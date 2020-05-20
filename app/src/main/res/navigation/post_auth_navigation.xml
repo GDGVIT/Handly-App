@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_collections" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.dscvit.handly.SettingsFragment"
+        android:name="com.dscvit.handly.ui.home.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>
