@@ -56,12 +56,14 @@ class CollectionsFragment : Fragment() {
                 Result.Status.LOADING -> {
                     collection_recycler_view.hide()
                     collection_progress.show()
+                    collection_fab.hide()
                 }
                 Result.Status.SUCCESS -> {
                     val collections = it.data!!
                     collectionsAdapter.updateCollections(collections)
                     collection_recycler_view.show()
                     collection_progress.hide()
+                    collection_fab.show()
                 }
                 Result.Status.ERROR -> {
                     Log.d("esh", it.message!!)
