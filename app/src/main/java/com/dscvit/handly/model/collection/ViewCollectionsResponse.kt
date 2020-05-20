@@ -1,4 +1,4 @@
 package com.dscvit.handly.model.collection
 
 
-class ViewCollectionsResponse : ArrayList<ViewCollectionsResponseItem>()
+class ViewCollectionsResponse : ArrayList<Collection>()
