@@ -12,6 +12,7 @@ import com.dscvit.handly.R
 import com.dscvit.handly.adapter.CollectionsAdapter
 import com.dscvit.handly.model.Result
 import com.dscvit.handly.model.collection.CreateCollectionRequest
+import com.dscvit.handly.model.collection.DeleteCollectionRequest
 import com.dscvit.handly.model.collection.UpdateCollection
 import com.dscvit.handly.util.*
 import com.github.ybq.android.spinkit.style.Circle
@@ -96,6 +97,42 @@ class CollectionsFragment : Fragment() {
                     } else {
                         shortToast("Name can't be empty")
                     }
+                }
+
+                dialogView.modify_delete.setOnClickListener {
+                    val deleteCollectionRequest = DeleteCollectionRequest(
+                        collectionAdapter.collectionList[position].id
+                    )
+                    homeViewModel.deleteCollection(deleteCollectionRequest)
+                        .observe(viewLifecycleOwner, Observer {
+                            when (it) {
+                                "Loading" -> {
+                                    dialogView.modify_name.hide()
+                                    dialogView.modify_cancel.hide()
+                                    dialogView.modify_button.hide()
+                                    dialogView.modify_delete.hide()
+                                    dialogView.modify_title.hide()
+                                    dialogView.modify_progress.show()
+                                }
+                                "Success" -> {
+                                    getCollection(homeViewModel, collectionAdapter)
+                                    dialogBuilder.dismiss()
+                                }
+                                "Failed" -> {
+                                    shortToast("Oops something went wrong")
+
+                                    dialogView.modify_name.show()
+                                    dialogView.modify_cancel.show()
+                                    dialogView.modify_button.show()
+                                    dialogView.modify_delete.show()
+                                    dialogView.modify_title.show()
+                                    dialogView.modify_progress.hide()
+                                }
+                                else -> {
+                                    Log.d("esh", it)
+                                }
+                            }
+                        })
                 }
 
                 dialogView.modify_cancel.setOnClickListener {

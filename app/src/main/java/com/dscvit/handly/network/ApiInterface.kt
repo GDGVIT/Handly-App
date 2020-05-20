@@ -3,15 +3,9 @@ package com.dscvit.handly.network
 import com.dscvit.handly.model.auth.AuthResponse
 import com.dscvit.handly.model.auth.SigninRequest
 import com.dscvit.handly.model.auth.SignupRequest
-import com.dscvit.handly.model.collection.CreateCollectionRequest
-import com.dscvit.handly.model.collection.CreateCollectionResponse
-import com.dscvit.handly.model.collection.UpdateCollection
-import com.dscvit.handly.model.collection.ViewCollectionsResponse
+import com.dscvit.handly.model.collection.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -30,5 +24,8 @@ interface ApiInterface {
 
     @PUT("core/collections/")
     suspend fun updateCollection(@Body updateCollection: UpdateCollection): Response<UpdateCollection>
+
+    @HTTP(method = "DELETE", path = "core/collections/", hasBody = true)
+    suspend fun deleteCollection(@Body deleteCollectionRequest: DeleteCollectionRequest): Response<Unit>
 
 }
