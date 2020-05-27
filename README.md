@@ -50,7 +50,6 @@ Rithik Jain
 </a>
 </p>
 </td>
-<td>
 </tr>
   </table>
 
