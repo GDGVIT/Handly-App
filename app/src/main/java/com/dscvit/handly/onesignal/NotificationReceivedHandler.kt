@@ -8,7 +8,7 @@ import com.onesignal.OSNotificationReceivedResult
 class NotificationReceivedHandler: NotificationExtenderService() {
     override fun onNotificationProcessing(notification: OSNotificationReceivedResult?): Boolean {
         val data = notification!!.payload.additionalData
-        Log.d("esh", data.getString("url"))
+        Log.d("esh", data.toString())
 
         return false
     }
