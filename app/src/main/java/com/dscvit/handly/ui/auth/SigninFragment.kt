@@ -84,13 +84,13 @@ class SigninFragment : Fragment() {
                 )
 
                 authViewModel.signinUser(signinRequest).observe(viewLifecycleOwner, Observer {
-                    when (it.status) {
-                        Result.Status.LOADING -> {
+                    when (it) {
+                        is Result.Loading -> {
                             hideUi()
                             signin_progress.show()
                         }
-                        Result.Status.SUCCESS -> {
-                            if (it.data?.message == "User Logged In") {
+                        is Result.Success -> {
+                            if (it.data!!.message == "User Logged In") {
                                 sharedPref[Constants.PREF_IS_AUTH] = true
                                 sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
 
@@ -101,7 +101,7 @@ class SigninFragment : Fragment() {
                             }
                             signin_progress.hide()
                         }
-                        Result.Status.ERROR -> {
+                        is Result.Error -> {
                             Log.d(TAG, it.message!!)
                             if (it.message == "400 Bad Request") {
                                 shortToast("Invalid credentials")

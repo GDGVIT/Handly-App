@@ -69,8 +69,8 @@ class CollectionsFragment : Fragment() {
                         )
                         homeViewModel.updateCollections(updateCollection)
                             .observe(viewLifecycleOwner, Observer {
-                                when (it.status) {
-                                    Result.Status.LOADING -> {
+                                when (it) {
+                                    is Result.Loading -> {
                                         dialogView.modify_name.hide()
                                         dialogView.modify_cancel.hide()
                                         dialogView.modify_button.hide()
@@ -78,12 +78,12 @@ class CollectionsFragment : Fragment() {
                                         dialogView.modify_title.hide()
                                         dialogView.modify_progress.show()
                                     }
-                                    Result.Status.SUCCESS -> {
+                                    is Result.Success -> {
                                         getCollection(homeViewModel, collectionAdapter)
                                         dialogBuilder.dismiss()
                                     }
-                                    Result.Status.ERROR -> {
-                                        Log.d(TAG, it.message?:"")
+                                    is Result.Error -> {
+                                        Log.d(TAG, it.message!!)
                                         shortToast("Oops something went wrong")
 
                                         dialogView.modify_name.show()
@@ -159,20 +159,20 @@ class CollectionsFragment : Fragment() {
                     )
                     homeViewModel.createCollection(createCollectionRequest)
                         .observe(viewLifecycleOwner, Observer {
-                            when (it.status) {
-                                Result.Status.LOADING -> {
+                            when (it) {
+                                is Result.Loading -> {
                                     dialogView.create_title.hide()
                                     dialogView.create_name.hide()
                                     dialogView.create_button.hide()
                                     dialogView.create_cancel.hide()
                                     dialogView.create_progress.show()
                                 }
-                                Result.Status.SUCCESS -> {
+                                is Result.Success -> {
                                     getCollection(homeViewModel, collectionAdapter)
                                     dialogBuilder.dismiss()
                                 }
-                                Result.Status.ERROR -> {
-                                    Log.d(TAG, it.message?:"")
+                                is Result.Error -> {
+                                    Log.d(TAG, it.message!!)
                                     shortToast("Oops something went wrong")
 
                                     dialogView.create_title.show()
@@ -203,20 +203,20 @@ class CollectionsFragment : Fragment() {
         collectionsAdapter: CollectionsAdapter
     ) {
         homeViewModel.getCollections().observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                Result.Status.LOADING -> {
+            when (it) {
+                is Result.Loading -> {
                     collection_recycler_view.hide()
                     collection_progress.show()
                     collection_fab.hide()
                 }
-                Result.Status.SUCCESS -> {
+                is Result.Success -> {
                     val collections = it.data!!
                     collectionsAdapter.updateCollections(collections)
                     collection_recycler_view.show()
                     collection_progress.hide()
                     collection_fab.show()
                 }
-                Result.Status.ERROR -> {
+                is Result.Error -> {
                     Log.d(TAG, it.message!!)
                     collection_progress.hide()
                 }

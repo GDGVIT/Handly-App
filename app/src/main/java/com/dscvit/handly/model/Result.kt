@@ -3,37 +3,12 @@ package com.dscvit.handly.model
 import androidx.annotation.Keep
 
 @Keep
-data class Result<out T>(val status: Status, val data: T?, val message: String?) {
+sealed class Result<out T> {
 
-    enum class Status {
-        SUCCESS,
-        ERROR,
-        LOADING
-    }
+    data class Success<out T>(val data: T ?= null ) : Result<T>()
 
-    companion object {
-        fun <T> success(data: T): Result<T> {
-            return Result(
-                Status.SUCCESS,
-                data,
-                null
-            )
-        }
+    data class Error<out T>(val message: String ?= null) : Result<T>()
 
-        fun <T> error(message: String, data: T? = null): Result<T> {
-            return Result(
-                Status.ERROR,
-                data,
-                message
-            )
-        }
+    class Loading<out T> : Result<T>()
 
-        fun <T> loading(data: T? = null): Result<T> {
-            return Result(
-                Status.LOADING,
-                data,
-                null
-            )
-        }
-    }
 }

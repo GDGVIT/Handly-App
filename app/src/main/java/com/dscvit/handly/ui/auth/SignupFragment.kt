@@ -98,12 +98,12 @@ class SignupFragment : Fragment() {
                 )
 
                 authViewModel.signupUser(signupRequest).observe(viewLifecycleOwner, Observer {
-                    when (it.status) {
-                        Result.Status.LOADING -> {
+                    when (it) {
+                        is Result.Loading -> {
                             hideUi()
                             signup_progress.show()
                         }
-                        Result.Status.SUCCESS -> {
+                        is Result.Success -> {
                             if (it.data!!.message == "User Logged In") {
                                 sharedPref[Constants.PREF_IS_AUTH] = true
                                 sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
@@ -115,8 +115,8 @@ class SignupFragment : Fragment() {
                             }
                             signup_progress.hide()
                         }
-                        Result.Status.ERROR -> {
-                            Log.d(TAG, it.message?:"")
+                        is Result.Error -> {
+                            Log.d(TAG, it.message!!)
                             if (it.message == "400 Bad Request") {
                                 shortToast("User Exists, Try logging in")
                             } else {
