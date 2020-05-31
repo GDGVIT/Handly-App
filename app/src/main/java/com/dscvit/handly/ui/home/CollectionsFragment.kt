@@ -54,8 +54,7 @@ class CollectionsFragment : Fragment() {
         collection_recycler_view.addOnItemLongClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val dialogBuilder = MaterialAlertDialogBuilder(requireContext()).create()
-                val inflater = this@CollectionsFragment.layoutInflater
-                val dialogView = inflater.inflate(R.layout.modify_collection_alert, null)
+                val dialogView = layoutInflater.inflate(R.layout.modify_collection_alert, null)
                 dialogView.modify_progress.setIndeterminateDrawable(Circle())
                 dialogView.modify_progress.hide()
                 dialogView.modify_name.setText(collectionAdapter.collectionList[position].name)
@@ -147,8 +146,7 @@ class CollectionsFragment : Fragment() {
 
         collection_fab.setOnClickListener {
             val dialogBuilder = MaterialAlertDialogBuilder(requireContext()).create()
-            val inflater = this.layoutInflater
-            val dialogView = inflater.inflate(R.layout.add_collection_alert, null)
+            val dialogView = layoutInflater.inflate(R.layout.add_collection_alert, null)
             dialogView.create_progress.setIndeterminateDrawable(Circle())
             dialogView.create_progress.hide()
 
