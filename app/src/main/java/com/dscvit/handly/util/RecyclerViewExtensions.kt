@@ -32,7 +32,7 @@ fun RecyclerView.addOnItemLongClickListener(onClickListener: OnItemClickListener
             view.setOnLongClickListener{
                 val holder = getChildViewHolder(view)
                 onClickListener.onItemClicked(holder.adapterPosition, view)
-                return@setOnLongClickListener true
+                true
             }
         }
     })
