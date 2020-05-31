@@ -54,22 +54,22 @@ class SignupFragment : Fragment() {
             val name = signup_name_text.editText?.text.toString()
 
             if (!email.isValidEmail()) {
-                signup_email_text.error = "Please enter a valid email"
+                signup_email_text.error = getString(R.string.email_error_text)
             }
 
             if (password.trim().length < 6) {
-                signup_password_text.error = "Password must have at least 6 characters"
+                signup_password_text.error = getString(R.string.password_error_text)
             }
 
             if (name.trim().length < 2) {
-                signup_name_text.error = "Please enter a valid name"
+                signup_name_text.error = getString(R.string.name_error_text)
             }
 
             signup_email_text.editText?.doOnTextChanged { text, _, _, _ ->
                 if (text.isValidEmail()) {
                     signup_email_text.error = null
                 } else {
-                    signup_email_text.error = "Please enter a valid email"
+                    signup_email_text.error = getString(R.string.email_error_text)
                 }
             }
 
@@ -77,7 +77,7 @@ class SignupFragment : Fragment() {
                 if (text!!.trim().length > 5) {
                     signup_password_text.error = null
                 } else {
-                    signup_password_text.error = "Password must have at least 6 characters"
+                    signup_password_text.error = getString(R.string.password_error_text)
                 }
             }
 
@@ -85,7 +85,7 @@ class SignupFragment : Fragment() {
                 if (text!!.trim().length >= 2) {
                     signup_name_text.error = null
                 } else {
-                    signup_name_text.error = "Password must have at least 6 characters"
+                    signup_name_text.error = getString(R.string.name_error_text)
                 }
             }
 

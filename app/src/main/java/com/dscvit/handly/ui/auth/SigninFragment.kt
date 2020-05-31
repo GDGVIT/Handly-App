@@ -53,18 +53,18 @@ class SigninFragment : Fragment() {
             val password = signin_password_text.editText?.text.toString()
 
             if (!email.isValidEmail()) {
-                signin_email_text.error = "Please enter a valid email"
+                signin_email_text.error = getString(R.string.email_error_text)
             }
 
             if (password.length < 6) {
-                signin_password_text.error = "Password must have at least 6 characters"
+                signin_password_text.error = getString(R.string.password_error_text)
             }
 
             signin_email_text.editText?.doOnTextChanged {text, _, _, _ ->
                 if (text.isValidEmail()) {
                     signin_email_text.error = null
                 } else {
-                    signin_email_text.error = "Please enter a valid email"
+                    signin_email_text.error = getString(R.string.email_error_text)
                 }
             }
 
@@ -72,7 +72,7 @@ class SigninFragment : Fragment() {
                 if (text!!.length > 5) {
                     signin_password_text.error = null
                 } else {
-                    signin_password_text.error = "Password must have at least 6 characters"
+                    signin_password_text.error = getString(R.string.password_error_text)
                 }
             }
 
