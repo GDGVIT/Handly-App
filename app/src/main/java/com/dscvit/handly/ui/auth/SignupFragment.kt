@@ -47,9 +47,9 @@ class SignupFragment : Fragment() {
         }
 
         signup_button.setOnClickListener {
-            val email = signup_email_text.editText!!.text.toString()
-            val password = signup_password_text.editText!!.text.toString()
-            val name = signup_name_text.editText!!.text.toString()
+            val email = signup_email_text.editText?.text.toString()
+            val password = signup_password_text.editText?.text.toString()
+            val name = signup_name_text.editText?.text.toString()
 
             if (!email.isValidEmail()) {
                 signup_email_text.error = "Please enter a valid email"
@@ -63,7 +63,7 @@ class SignupFragment : Fragment() {
                 signup_name_text.error = "Please enter a valid name"
             }
 
-            signup_email_text.editText!!.doOnTextChanged { text, _, _, _ ->
+            signup_email_text.editText?.doOnTextChanged { text, _, _, _ ->
                 if (text.isValidEmail()) {
                     signup_email_text.error = null
                 } else {
@@ -71,7 +71,7 @@ class SignupFragment : Fragment() {
                 }
             }
 
-            signup_password_text.editText!!.doOnTextChanged { text, _, _, _ ->
+            signup_password_text.editText?.doOnTextChanged { text, _, _, _ ->
                 if (text!!.trim().length > 5) {
                     signup_password_text.error = null
                 } else {
@@ -79,7 +79,7 @@ class SignupFragment : Fragment() {
                 }
             }
 
-            signup_name_text.editText!!.doOnTextChanged { text, _, _, _ ->
+            signup_name_text.editText?.doOnTextChanged { text, _, _, _ ->
                 if (text!!.trim().length >= 2) {
                     signup_name_text.error = null
                 } else {
@@ -114,7 +114,7 @@ class SignupFragment : Fragment() {
                             signup_progress.hide()
                         }
                         Result.Status.ERROR -> {
-                            Log.d("esh", it.message!!)
+                            Log.d("esh", it.message?:"")
                             if (it.message == "400 Bad Request") {
                                 shortToast("User Exists, Try logging in")
                             } else {
