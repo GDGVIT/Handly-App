@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/modify_progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/SpinKitView.Circle"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:SpinKit_Color="@color/primaryColor"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/modify_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/modify_dialog_title"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_margin="16dp"/>
+
+    <EditText
+        android:id="@+id/modify_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:maxLength="20"
+        android:textSize="20sp"
+        android:textCursorDrawable="@null"
+        android:layout_below="@id/modify_title"
+        android:layout_margin="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/modify_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update_text_modify_dialog"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/modify_name"
+        android:layout_alignParentEnd="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/modify_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#000000"
+        android:layout_below="@id/modify_name"
+        android:layout_toStartOf="@id/modify_button"
+        android:text="@string/cancel_text_modify_dialog" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/modify_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="#FF0000"
+        android:layout_below="@id/modify_name"
+        android:text="@string/delete_text_modify_dialog" />
+
+</RelativeLayout>

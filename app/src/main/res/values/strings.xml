@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Handly</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="collections_tab_text">Collections</string>
+    <string name="settings_tab_text">Settings</string>
+    <string name="title_string_create_dialog">Create a new collection</string>
+    <string name="name_create_dialog">Name</string>
+    <string name="create_create_dialog">Create</string>
+    <string name="cancel_create_dialog">Cancel</string>
+    <string name="folder_image">Folder image</string>
+    <string name="temp_folder_name">Folder Name</string>
+    <string name="sign_out_button_text">Sign Out</string>
+    <string name="logo_image_description">Logo image</string>
+    <string name="login_title_text">Login</string>
+    <string name="email_text">Email</string>
+    <string name="password_text">Password</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="signup_instead_text">Don\'t have an account? Sign up instead</string>
+    <string name="register_title_text">Register</string>
+    <string name="name_text">Name</string>
+    <string name="signup_text">Sign Up</string>
+    <string name="signin_instead_text">Already have an account? Sign in instead</string>
+    <string name="modify_dialog_title">Modify</string>
+    <string name="update_text_modify_dialog">Update</string>
+    <string name="cancel_text_modify_dialog">Cancel</string>
+    <string name="delete_text_modify_dialog">Delete</string>
+    <string name="email_error_text">Please enter a valid email</string>
+    <string name="password_error_text">Password must have at least 6 characters</string>
+    <string name="name_error_text">Please enter a valid name</string>
+</resources>
