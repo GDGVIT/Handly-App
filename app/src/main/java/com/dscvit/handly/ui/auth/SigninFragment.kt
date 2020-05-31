@@ -47,8 +47,8 @@ class SigninFragment : Fragment() {
         }
 
         signin_button.setOnClickListener {
-            val email = signin_email_text.editText!!.text.toString()
-            val password = signin_password_text.editText!!.text.toString()
+            val email = signin_email_text.editText?.text.toString()
+            val password = signin_password_text.editText?.text.toString()
 
             if (!email.isValidEmail()) {
                 signin_email_text.error = "Please enter a valid email"
@@ -58,7 +58,7 @@ class SigninFragment : Fragment() {
                 signin_password_text.error = "Password must have at least 6 characters"
             }
 
-            signin_email_text.editText!!.doOnTextChanged {text, _, _, _ ->
+            signin_email_text.editText?.doOnTextChanged {text, _, _, _ ->
                 if (text.isValidEmail()) {
                     signin_email_text.error = null
                 } else {
@@ -66,7 +66,7 @@ class SigninFragment : Fragment() {
                 }
             }
 
-            signin_password_text.editText!!.doOnTextChanged {text, _, _, _ ->
+            signin_password_text.editText?.doOnTextChanged {text, _, _, _ ->
                 if (text!!.length > 5) {
                     signin_password_text.error = null
                 } else {
@@ -88,7 +88,7 @@ class SigninFragment : Fragment() {
                             signin_progress.show()
                         }
                         Result.Status.SUCCESS -> {
-                            if (it.data!!.message == "User Logged In") {
+                            if (it.data?.message == "User Logged In") {
                                 sharedPref[Constants.PREF_IS_AUTH] = true
                                 sharedPref[Constants.PREF_AUTH_TOKEN] = it.data.payload.token
 
