@@ -4,6 +4,7 @@ import com.dscvit.handly.model.auth.AuthResponse
 import com.dscvit.handly.model.auth.SigninRequest
 import com.dscvit.handly.model.auth.SignupRequest
 import com.dscvit.handly.model.collection.*
+import com.dscvit.handly.model.collection.Collection
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,7 +21,7 @@ interface ApiInterface {
             Response<CreateCollectionResponse>
 
     @GET("core/collections/")
-    suspend fun getCollections(): Response<ViewCollectionsResponse>
+    suspend fun getCollections(): Response<ArrayList<Collection>>
 
     @PUT("core/collections/")
     suspend fun updateCollection(@Body updateCollection: UpdateCollection): Response<UpdateCollection>
