@@ -24,6 +24,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class SignupFragment : Fragment() {
 
+    private val TAG = this.javaClass.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -114,7 +116,7 @@ class SignupFragment : Fragment() {
                             signup_progress.hide()
                         }
                         Result.Status.ERROR -> {
-                            Log.d("esh", it.message?:"")
+                            Log.d(TAG, it.message?:"")
                             if (it.message == "400 Bad Request") {
                                 shortToast("User Exists, Try logging in")
                             } else {

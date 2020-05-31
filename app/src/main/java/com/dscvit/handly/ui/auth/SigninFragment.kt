@@ -24,6 +24,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class SigninFragment : Fragment() {
 
+    private val TAG = this.javaClass.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -100,7 +102,7 @@ class SigninFragment : Fragment() {
                             signin_progress.hide()
                         }
                         Result.Status.ERROR -> {
-                            Log.d("esh", it.message!!)
+                            Log.d(TAG, it.message!!)
                             if (it.message == "400 Bad Request") {
                                 shortToast("Invalid credentials")
                             } else {

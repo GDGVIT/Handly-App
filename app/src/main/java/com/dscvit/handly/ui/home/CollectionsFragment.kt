@@ -26,6 +26,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class CollectionsFragment : Fragment() {
 
+    private val TAG = this.javaClass.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,7 +83,7 @@ class CollectionsFragment : Fragment() {
                                         dialogBuilder.dismiss()
                                     }
                                     Result.Status.ERROR -> {
-                                        Log.d("esh", it.message!!)
+                                        Log.d(TAG, it.message?:"")
                                         shortToast("Oops something went wrong")
 
                                         dialogView.modify_name.show()
@@ -128,7 +130,7 @@ class CollectionsFragment : Fragment() {
                                     dialogView.modify_progress.hide()
                                 }
                                 else -> {
-                                    Log.d("esh", it)
+                                    Log.d(TAG, it)
                                 }
                             }
                         })
@@ -170,7 +172,7 @@ class CollectionsFragment : Fragment() {
                                     dialogBuilder.dismiss()
                                 }
                                 Result.Status.ERROR -> {
-                                    Log.d("esh", it.message!!)
+                                    Log.d(TAG, it.message?:"")
                                     shortToast("Oops something went wrong")
 
                                     dialogView.create_title.show()
@@ -215,7 +217,7 @@ class CollectionsFragment : Fragment() {
                     collection_fab.show()
                 }
                 Result.Status.ERROR -> {
-                    Log.d("esh", it.message!!)
+                    Log.d(TAG, it.message!!)
                     collection_progress.hide()
                 }
             }
