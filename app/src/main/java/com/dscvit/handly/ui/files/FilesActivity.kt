@@ -43,10 +43,10 @@ class FilesActivity : AppCompatActivity() {
             finish()
         }
 
-        getFiles(fileViewModel, collectionID?:"")
+        getFiles(fileViewModel, collectionID?:"", filesAdapter)
     }
 
-    private fun getFiles(filesViewModel: FilesViewModel, id: String) {
+    private fun getFiles(filesViewModel: FilesViewModel, id: String, filesAdapter: FilesAdapter) {
         val requestBody = FileViewRequest(id)
         filesViewModel.getFiles(requestBody).observe(this, Observer {
             when (it) {
@@ -57,6 +57,9 @@ class FilesActivity : AppCompatActivity() {
                 is Result.Success -> {
                     filesRecyclerView.show()
                     file_progress.hide()
+
+                    filesAdapter.updateFiles(it.data!!)
+
                     Log.d("esh", it.toString())
                 }
                 is Result.Error -> {
