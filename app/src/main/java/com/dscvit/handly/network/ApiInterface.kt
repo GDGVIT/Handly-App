@@ -5,6 +5,8 @@ import com.dscvit.handly.model.auth.SigninRequest
 import com.dscvit.handly.model.auth.SignupRequest
 import com.dscvit.handly.model.collection.*
 import com.dscvit.handly.model.collection.Collection
+import com.dscvit.handly.model.files.FileViewRequest
+import com.dscvit.handly.model.files.FileViewResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -23,8 +25,12 @@ interface ApiInterface {
     @GET("core/collections/")
     suspend fun getCollections(): Response<ArrayList<Collection>>
 
+
     @PUT("core/collections/")
     suspend fun updateCollection(@Body updateCollection: UpdateCollection): Response<UpdateCollection>
+
+    @POST("core/view/")
+    suspend fun getFiles(@Body fileViewRequest: FileViewRequest): Response<List<FileViewResponse>>
 
     @HTTP(method = "DELETE", path = "core/collections/", hasBody = true)
     suspend fun deleteCollection(@Body deleteCollectionRequest: DeleteCollectionRequest): Response<Unit>

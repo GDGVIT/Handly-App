@@ -1,5 +1,6 @@
 package com.dscvit.handly.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.dscvit.handly.model.Result
 import com.dscvit.handly.model.collection.CreateCollectionRequest
 import com.dscvit.handly.model.collection.DeleteCollectionRequest
 import com.dscvit.handly.model.collection.UpdateCollection
+import com.dscvit.handly.ui.files.FilesActivity
 import com.dscvit.handly.util.*
 import com.github.ybq.android.spinkit.style.Circle
 import com.github.ybq.android.spinkit.style.Wave
@@ -52,6 +54,15 @@ class CollectionsFragment : Fragment() {
         }
 
         getCollection(homeViewModel, collectionAdapter)
+
+        collection_recycler_view.addOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClicked(position: Int, view: View) {
+                val intent = Intent(requireContext(), FilesActivity::class.java)
+                intent.putExtra("collectionID", collectionAdapter.collectionList[position].id)
+                intent.putExtra("collectionName", collectionAdapter.collectionList[position].name)
+                startActivity(intent)
+            }
+        })
 
         collection_recycler_view.addOnItemLongClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {

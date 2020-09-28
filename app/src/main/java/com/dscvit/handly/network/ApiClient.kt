@@ -5,6 +5,7 @@ import com.dscvit.handly.model.auth.SignupRequest
 import com.dscvit.handly.model.collection.CreateCollectionRequest
 import com.dscvit.handly.model.collection.DeleteCollectionRequest
 import com.dscvit.handly.model.collection.UpdateCollection
+import com.dscvit.handly.model.files.FileViewRequest
 
 class ApiClient(private val api: ApiInterface) : BaseApiClient() {
 
@@ -26,6 +27,10 @@ class ApiClient(private val api: ApiInterface) : BaseApiClient() {
 
     suspend fun updateCollection(updateCollection: UpdateCollection) = getResult {
         api.updateCollection(updateCollection)
+    }
+
+    suspend fun getFiles(fileViewRequest: FileViewRequest) = getResult {
+        api.getFiles(fileViewRequest)
     }
 
     suspend fun deleteCollection(deleteCollectionRequest: DeleteCollectionRequest) =
