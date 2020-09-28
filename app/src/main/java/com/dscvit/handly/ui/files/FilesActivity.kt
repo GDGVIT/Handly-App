@@ -151,18 +151,21 @@ class FilesActivity : AppCompatActivity() {
         filesViewModel.getFiles(requestBody).observe(this, Observer {
             when (it) {
                 is Result.Loading -> {
+                    file_fab.hide()
                     filesRecyclerView.hide()
                     file_progress.show()
                 }
                 is Result.Success -> {
                     filesRecyclerView.show()
                     file_progress.hide()
+                    file_fab.show()
 
                     filesAdapter.updateFiles(it.data!!)
                 }
                 is Result.Error -> {
                     filesRecyclerView.hide()
                     file_progress.hide()
+                    file_fab.show()
                     Log.d("esh", "Error Ono")
                 }
             }
