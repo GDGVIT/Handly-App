@@ -60,6 +60,7 @@ class CollectionsFragment : Fragment() {
                 dialogView.modify_progress.setIndeterminateDrawable(Circle())
                 dialogView.modify_progress.hide()
                 dialogView.modify_name.setText(collectionAdapter.collectionList[position].name)
+                dialogView.modify_name.hideSoftKeyboardOnFocusLostEnabled(true)
 
                 dialogView.modify_button.setOnClickListener {
                     if (dialogView.modify_name.text.isNotBlank()) {
@@ -151,6 +152,7 @@ class CollectionsFragment : Fragment() {
             val dialogView = layoutInflater.inflate(R.layout.add_collection_alert, null)
             dialogView.create_progress.setIndeterminateDrawable(Circle())
             dialogView.create_progress.hide()
+            dialogView.create_name.hideSoftKeyboardOnFocusLostEnabled(true)
 
             dialogView.create_button.setOnClickListener {
                 if (dialogView.create_name.text.isNotBlank()) {

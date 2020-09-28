@@ -1,8 +1,11 @@
 package com.dscvit.handly.util
 
+import android.app.Activity
 import android.content.Context
 import android.util.Patterns
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -33,3 +36,11 @@ fun View.show() {
 
 fun CharSequence?.isValidEmail() =
     !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this!!).matches()
+
+fun EditText.hideSoftKeyboardOnFocusLostEnabled(enabled: Boolean) {
+    val listener = if (enabled)
+        OnFocusLostListener()
+    else
+        null
+    onFocusChangeListener = listener
+}
