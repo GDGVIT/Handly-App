@@ -1,5 +1,8 @@
 package com.dscvit.handly.ui.files
 
+import android.app.SearchManager
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -51,6 +54,14 @@ class FilesActivity : AppCompatActivity() {
         }
 
         getFiles(fileViewModel, collectionID ?: "", filesAdapter)
+
+        filesRecyclerView.addOnItemClickListener(object : OnItemClickListener{
+            override fun onItemClicked(position: Int, view: View) {
+                val url = filesAdapter.filesList[position].awsUrl
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+        })
 
         filesRecyclerView.addOnItemLongClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
