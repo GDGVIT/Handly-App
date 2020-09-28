@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dscvit.handly.R
+import com.dscvit.handly.adapter.FilesAdapter
 import com.dscvit.handly.model.Result
 import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.util.hide
@@ -19,10 +21,17 @@ class FilesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_files)
 
-        collection_progress.hide()
-        collection_progress.setIndeterminateDrawable(Wave())
+        file_progress.hide()
+        file_progress.setIndeterminateDrawable(Wave())
 
         val fileViewModel by viewModel<FilesViewModel>()
+
+        val filesAdapter = FilesAdapter()
+        filesRecyclerView.apply {
+            layoutManager =
+                GridLayoutManager(this@FilesActivity, 3, GridLayoutManager.VERTICAL, false)
+            adapter = filesAdapter
+        }
 
         val extras = intent.extras
         val collectionID = extras?.getString("collectionID")
@@ -42,14 +51,17 @@ class FilesActivity : AppCompatActivity() {
         filesViewModel.getFiles(requestBody).observe(this, Observer {
             when (it) {
                 is Result.Loading -> {
-                    collection_progress.show()
+                    filesRecyclerView.hide()
+                    file_progress.show()
                 }
                 is Result.Success -> {
-                    collection_progress.hide()
+                    filesRecyclerView.show()
+                    file_progress.hide()
                     Log.d("esh", it.toString())
                 }
                 is Result.Error -> {
-                    collection_progress.hide()
+                    filesRecyclerView.hide()
+                    file_progress.hide()
                     Log.d("esh", "Error Ono")
                 }
             }
