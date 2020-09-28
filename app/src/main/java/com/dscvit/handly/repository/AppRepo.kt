@@ -6,6 +6,7 @@ import com.dscvit.handly.model.collection.CreateCollectionRequest
 import com.dscvit.handly.model.collection.DeleteCollectionRequest
 import com.dscvit.handly.model.collection.UpdateCollection
 import com.dscvit.handly.model.files.FileViewRequest
+import com.dscvit.handly.model.files.UpdateFile
 import com.dscvit.handly.network.ApiClient
 
 class AppRepo(private val apiClient: ApiClient) : BaseRepo() {
@@ -33,6 +34,12 @@ class AppRepo(private val apiClient: ApiClient) : BaseRepo() {
     fun getFiles(fileViewRequest: FileViewRequest) = makeRequest {
         apiClient.getFiles(fileViewRequest)
     }
+
+    fun updateFile(id: String, updateFile: UpdateFile) = makeRequest {
+        apiClient.updateFile(id, updateFile)
+    }
+
+    suspend fun deleteFile(id: String) = apiClient.deleteFile(id)
 
     suspend fun deleteCollection(deleteCollectionRequest: DeleteCollectionRequest) =
         apiClient.deleteCollection(deleteCollectionRequest)

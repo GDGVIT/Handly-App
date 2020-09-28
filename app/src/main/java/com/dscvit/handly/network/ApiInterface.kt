@@ -7,6 +7,8 @@ import com.dscvit.handly.model.collection.*
 import com.dscvit.handly.model.collection.Collection
 import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.model.files.FileViewResponse
+import com.dscvit.handly.model.files.UpdateFile
+import com.dscvit.handly.model.files.UpdateFileResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -29,10 +31,19 @@ interface ApiInterface {
     @PUT("core/collections/")
     suspend fun updateCollection(@Body updateCollection: UpdateCollection): Response<UpdateCollection>
 
+    @HTTP(method = "DELETE", path = "core/collections/", hasBody = true)
+    suspend fun deleteCollection(@Body deleteCollectionRequest: DeleteCollectionRequest): Response<Unit>
+
     @POST("core/view/")
     suspend fun getFiles(@Body fileViewRequest: FileViewRequest): Response<List<FileViewResponse>>
 
-    @HTTP(method = "DELETE", path = "core/collections/", hasBody = true)
-    suspend fun deleteCollection(@Body deleteCollectionRequest: DeleteCollectionRequest): Response<Unit>
+    @PATCH("core/update/{id}/")
+    suspend fun updateFile(
+        @Path(value = "id") id: String,
+        @Body updateFile: UpdateFile
+    ): Response<UpdateFileResponse>
+
+    @HTTP(method = "DELETE", path = "core/update/{id}/")
+    suspend fun deleteFile(@Path(value = "id") id: String): Response<Unit>
 
 }
