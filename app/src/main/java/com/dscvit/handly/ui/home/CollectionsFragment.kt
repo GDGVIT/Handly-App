@@ -43,6 +43,8 @@ class CollectionsFragment : Fragment() {
         collection_progress.hide()
         collection_progress.setIndeterminateDrawable(Circle())
 
+        noContentView.hide()
+
         val homeViewModel by sharedViewModel<HomeViewModel>()
 
         val collectionAdapter = CollectionsAdapter()
@@ -131,7 +133,7 @@ class CollectionsFragment : Fragment() {
                                     dialogBuilder.dismiss()
                                 }
                                 "Failed" -> {
-                                    shortToast("Oops something went wrong")
+                                    shortToast("Oops, something went wrong")
 
                                     dialogView.modify_name.show()
                                     dialogView.modify_cancel.show()
@@ -219,18 +221,27 @@ class CollectionsFragment : Fragment() {
                 is Result.Loading -> {
                     collection_recycler_view.hide()
                     collection_progress.show()
+                    noContentView.hide()
                     collection_fab.hide()
                 }
                 is Result.Success -> {
                     val collections = it.data!!
-                    collectionsAdapter.updateCollections(collections)
-                    collection_recycler_view.show()
+                    if (collections.isEmpty()) {
+                        collection_recycler_view.hide()
+                        noContentView.show()
+                    } else {
+                        collectionsAdapter.updateCollections(collections)
+                        noContentView.hide()
+                        collection_recycler_view.show()
+                    }
                     collection_progress.hide()
                     collection_fab.show()
                 }
                 is Result.Error -> {
                     Log.d(TAG, it.message!!)
+                    shortToast("Oops, something went wrong!")
                     collection_progress.hide()
+                    collection_fab.show()
                 }
             }
         })

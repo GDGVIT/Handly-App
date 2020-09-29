@@ -41,6 +41,8 @@ class FilesActivity : AppCompatActivity() {
         file_progress.hide()
         file_progress.setIndeterminateDrawable(Circle())
 
+        noContentView.hide()
+
         val filesAdapter = FilesAdapter()
         filesRecyclerView.apply {
             layoutManager =
@@ -139,11 +141,11 @@ class FilesActivity : AppCompatActivity() {
                                     dialogView.modify_progress.show()
                                 }
                                 "Success" -> {
-                                    getFiles(fileViewModel, collectionID ?: "", filesAdapter)
+                                    getFiles(fileViewModel, collectionID, filesAdapter)
                                     dialogBuilder.dismiss()
                                 }
                                 "Failed" -> {
-                                    shortToast("Oops something went wrong")
+                                    shortToast("Oops, something went wrong")
 
                                     dialogView.modify_name.show()
                                     dialogView.modify_cancel.show()
@@ -282,6 +284,7 @@ class FilesActivity : AppCompatActivity() {
                 is Result.Loading -> {
                     file_fab.hide()
                     filesRecyclerView.hide()
+                    noContentView.hide()
                     file_progress.show()
                 }
                 is Result.Success -> {
@@ -289,12 +292,19 @@ class FilesActivity : AppCompatActivity() {
                     file_progress.hide()
                     file_fab.show()
 
-                    filesAdapter.updateFiles(it.data!!)
+                    if (it.data!!.isEmpty()) {
+                        filesRecyclerView.hide()
+                        noContentView.show()
+                    } else {
+                        noContentView.hide()
+                        filesRecyclerView.show()
+                        filesAdapter.updateFiles(it.data)
+                    }
                 }
                 is Result.Error -> {
-                    filesRecyclerView.hide()
                     file_progress.hide()
                     file_fab.show()
+                    shortToast("Oops, something went wrong!")
                     Log.d("esh", "Error Ono")
                 }
             }
@@ -310,7 +320,13 @@ class FilesActivity : AppCompatActivity() {
                 is Result.Success -> {
                     fileRefresh.isRefreshing = false
 
-                    filesAdapter.updateFiles(it.data!!)
+                    if (it.data!!.isEmpty()) {
+                        noContentView.show()
+                    } else {
+                        noContentView.hide()
+                        filesRecyclerView.show()
+                        filesAdapter.updateFiles(it.data)
+                    }
                 }
                 is Result.Error -> {
                     fileRefresh.isRefreshing = false

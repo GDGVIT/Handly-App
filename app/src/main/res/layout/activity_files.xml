@@ -49,6 +49,37 @@
         style="@style/SpinKitView.Circle"
         app:SpinKit_Color="@color/primaryColor" />
 
+    <LinearLayout
+        android:id="@+id/noContentView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="64dp"
+            android:src="@drawable/ic_sad"
+            android:contentDescription="@string/sad_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="64dp"
+            android:textAlignment="center"
+            android:text="@string/no_file_string"/>
+
+    </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/file_fab"
         android:layout_width="wrap_content"
