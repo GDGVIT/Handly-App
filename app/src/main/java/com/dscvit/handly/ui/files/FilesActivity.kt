@@ -1,11 +1,13 @@
 package com.dscvit.handly.ui.files
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -86,6 +88,13 @@ class FilesActivity : AppCompatActivity() {
                 dialogView.modify_progress.hide()
                 dialogView.modify_name.setText(filesAdapter.filesList[position].inputDetails.name)
                 dialogView.modify_name.hideSoftKeyboardOnFocusLostEnabled(true)
+                dialogView.modify_name.requestFocus()
+                val imm =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.toggleSoftInput(
+                    InputMethodManager.SHOW_FORCED,
+                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                )
 
                 dialogView.modify_button.setOnClickListener {
                     if (dialogView.modify_name.text.isNotBlank()) {
@@ -311,7 +320,11 @@ class FilesActivity : AppCompatActivity() {
         })
     }
 
-    private fun refreshFiles(filesViewModel: FilesViewModel, id: String, filesAdapter: FilesAdapter) {
+    private fun refreshFiles(
+        filesViewModel: FilesViewModel,
+        id: String,
+        filesAdapter: FilesAdapter
+    ) {
         val requestBody = FileViewRequest(id)
         filesViewModel.getFiles(requestBody).observe(this, Observer {
             when (it) {
