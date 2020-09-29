@@ -1,6 +1,7 @@
 package com.dscvit.handly.ui.files
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -61,6 +62,12 @@ class FilesActivity : AppCompatActivity() {
         toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
             finish()
+        }
+
+        fileRefresh.setColorSchemeColors(Color.parseColor("#63a4ff"))
+
+        fileRefresh.setOnRefreshListener {
+            refreshFiles(fileViewModel, collectionID, filesAdapter)
         }
 
         getFiles(fileViewModel, collectionID, filesAdapter)
@@ -294,6 +301,26 @@ class FilesActivity : AppCompatActivity() {
                     filesRecyclerView.hide()
                     file_progress.hide()
                     file_fab.show()
+                    Log.d("esh", "Error Ono")
+                }
+            }
+        })
+    }
+
+    private fun refreshFiles(filesViewModel: FilesViewModel, id: String, filesAdapter: FilesAdapter) {
+        val requestBody = FileViewRequest(id)
+        filesViewModel.getFiles(requestBody).observe(this, Observer {
+            when (it) {
+                is Result.Loading -> {
+                }
+                is Result.Success -> {
+                    fileRefresh.isRefreshing = false
+
+                    filesAdapter.updateFiles(it.data!!)
+                }
+                is Result.Error -> {
+                    fileRefresh.isRefreshing = false
+                    shortToast("Oops, something went wrong!")
                     Log.d("esh", "Error Ono")
                 }
             }
