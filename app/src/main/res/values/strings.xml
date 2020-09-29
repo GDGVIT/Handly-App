@@ -33,8 +33,8 @@
     <string name="password_error_text">Password must have at least 6 characters</string>
     <string name="name_error_text">Please enter a valid name</string>
     <string name="upload_chosen_file">Chosen file:</string>
-    <string name="notif_desc">The file was uploaded successfully and we will let you know with a notification when the file is converted into handwritting. You will be able to find the converted file here.</string>
-    <string name="notif_okay_button">Okay, Understood</string>
+    <string name="notif_desc">The file was uploaded successfully and we will let you know with a notification when the file is converted into handwriting. You will be able to find the converted file here.</string>
+    <string name="notif_okay_button">Understood</string>
     <string name="sign_out_string">Sign Out</string>
     <string name="sad_image">sad image</string>
     <string name="empty_collection_string">Nothing here yet!, Add a collection to get started.</string>
