@@ -8,6 +8,8 @@ import com.dscvit.handly.model.collection.UpdateCollection
 import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.model.files.UpdateFile
 import com.dscvit.handly.network.ApiClient
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class AppRepo(private val apiClient: ApiClient) : BaseRepo() {
 
@@ -40,6 +42,11 @@ class AppRepo(private val apiClient: ApiClient) : BaseRepo() {
     }
 
     suspend fun deleteFile(id: String) = apiClient.deleteFile(id)
+
+    fun uploadFile(collectionID: RequestBody, name: RequestBody, file: MultipartBody.Part) =
+        makeRequest {
+            apiClient.uploadFile(collectionID, name, file)
+        }
 
     suspend fun deleteCollection(deleteCollectionRequest: DeleteCollectionRequest) =
         apiClient.deleteCollection(deleteCollectionRequest)

@@ -5,12 +5,12 @@ import com.dscvit.handly.model.auth.SigninRequest
 import com.dscvit.handly.model.auth.SignupRequest
 import com.dscvit.handly.model.collection.*
 import com.dscvit.handly.model.collection.Collection
-import com.dscvit.handly.model.files.FileViewRequest
-import com.dscvit.handly.model.files.FileViewResponse
-import com.dscvit.handly.model.files.UpdateFile
-import com.dscvit.handly.model.files.UpdateFileResponse
+import com.dscvit.handly.model.files.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
 
 interface ApiInterface {
 
@@ -42,6 +42,14 @@ interface ApiInterface {
         @Path(value = "id") id: String,
         @Body updateFile: UpdateFile
     ): Response<UpdateFileResponse>
+
+    @Multipart
+    @POST("core/handwriter/")
+    suspend fun uploadFile(
+        @Part("collection") collectionID: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part file: MultipartBody.Part
+    ): Response<UploadFileResponse>
 
     @HTTP(method = "DELETE", path = "core/update/{id}/")
     suspend fun deleteFile(@Path(value = "id") id: String): Response<Unit>

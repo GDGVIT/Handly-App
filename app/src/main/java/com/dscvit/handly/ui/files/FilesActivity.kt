@@ -20,18 +20,28 @@ import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_files.*
 import kotlinx.android.synthetic.main.modify_collection_alert.view.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.net.URI
 
 class FilesActivity : AppCompatActivity() {
+    lateinit var collectionID: String
+    val fileViewModel by viewModel<FilesViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_files)
 
         file_progress.hide()
         file_progress.setIndeterminateDrawable(Wave())
-
-        val fileViewModel by viewModel<FilesViewModel>()
 
         val filesAdapter = FilesAdapter()
         filesRecyclerView.apply {
@@ -41,7 +51,7 @@ class FilesActivity : AppCompatActivity() {
         }
 
         val extras = intent.extras
-        val collectionID = extras?.getString("collectionID")
+        collectionID = extras?.getString("collectionID") ?: ""
         val collectionName = extras?.getString("collectionName")
 
         toolbar?.title = collectionName
@@ -50,7 +60,7 @@ class FilesActivity : AppCompatActivity() {
             finish()
         }
 
-        getFiles(fileViewModel, collectionID ?: "", filesAdapter)
+        getFiles(fileViewModel, collectionID, filesAdapter)
 
         filesRecyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
@@ -91,7 +101,7 @@ class FilesActivity : AppCompatActivity() {
                                         dialogView.modify_progress.show()
                                     }
                                     is Result.Success -> {
-                                        getFiles(fileViewModel, collectionID ?: "", filesAdapter)
+                                        getFiles(fileViewModel, collectionID, filesAdapter)
                                         dialogBuilder.dismiss()
                                     }
                                     is Result.Error -> {
@@ -172,9 +182,40 @@ class FilesActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 111 && resultCode == RESULT_OK) {
-            val path = data?.data?.path
-            val file = File(path!!)
-            Log.d("esh", file.name)
+            val uri: Uri = data?.data!!
+            val parcelFileDescriptor =
+                contentResolver.openFileDescriptor(uri, "r", null) ?: return
+
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+            val file = File(cacheDir, contentResolver.getFileName(uri))
+            val outputStream = FileOutputStream(file)
+            inputStream.copyTo(outputStream)
+            Log.d("esh", file.absolutePath)
+            fileViewModel.uploadFile(
+                collectionID.toRequestBody(),
+                "Test".toRequestBody(),
+                MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())
+            ).observe(this@FilesActivity, Observer {
+                when (it) {
+                    is Result.Loading -> {
+                        file_fab.hide()
+                        filesRecyclerView.hide()
+                        file_progress.show()
+                    }
+                    is Result.Success -> {
+                        filesRecyclerView.show()
+                        file_progress.hide()
+                        file_fab.show()
+                        Log.d("esh", "Doneeeee")
+                    }
+                    is Result.Error -> {
+                        filesRecyclerView.hide()
+                        file_progress.hide()
+                        file_fab.show()
+                        Log.d("esh", it.message!!)
+                    }
+                }
+            })
         }
     }
 

@@ -8,6 +8,8 @@ import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.model.files.UpdateFile
 import com.dscvit.handly.repository.AppRepo
 import kotlinx.coroutines.Dispatchers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.lang.Exception
 
 class FilesViewModel(private val repo: AppRepo) : ViewModel() {
@@ -15,7 +17,10 @@ class FilesViewModel(private val repo: AppRepo) : ViewModel() {
 
     fun updateFile(id: String, updateFile: UpdateFile) = repo.updateFile(id, updateFile)
 
-    fun deleteFile(id: String): LiveData<String> = liveData (Dispatchers.IO) {
+    fun uploadFile(collectionID: RequestBody, name: RequestBody, file: MultipartBody.Part) =
+        repo.uploadFile(collectionID, name, file)
+
+    fun deleteFile(id: String): LiveData<String> = liveData(Dispatchers.IO) {
         emit("Loading")
 
         try {
