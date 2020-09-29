@@ -1,21 +1,17 @@
 package com.dscvit.handly.ui.files
 
-import android.app.SearchManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dscvit.handly.R
 import com.dscvit.handly.adapter.FilesAdapter
 import com.dscvit.handly.model.Result
-import com.dscvit.handly.model.collection.DeleteCollectionRequest
-import com.dscvit.handly.model.collection.UpdateCollection
 import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.model.files.UpdateFile
 import com.dscvit.handly.util.*
@@ -25,6 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_files.*
 import kotlinx.android.synthetic.main.modify_collection_alert.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
 
 class FilesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +52,12 @@ class FilesActivity : AppCompatActivity() {
 
         getFiles(fileViewModel, collectionID ?: "", filesAdapter)
 
-        filesRecyclerView.addOnItemClickListener(object : OnItemClickListener{
+        filesRecyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val url = filesAdapter.filesList[position].awsUrl
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val browserIntent = Intent(Intent.ACTION_VIEW)
+                browserIntent.data = Uri.parse(url)
+                val intent = Intent.createChooser(browserIntent, "Choose Viewer")
                 startActivity(intent)
             }
         })
@@ -92,7 +91,7 @@ class FilesActivity : AppCompatActivity() {
                                         dialogView.modify_progress.show()
                                     }
                                     is Result.Success -> {
-                                        getFiles(fileViewModel, collectionID?:"", filesAdapter)
+                                        getFiles(fileViewModel, collectionID ?: "", filesAdapter)
                                         dialogBuilder.dismiss()
                                     }
                                     is Result.Error -> {
@@ -155,6 +154,28 @@ class FilesActivity : AppCompatActivity() {
                 dialogBuilder.show()
             }
         })
+
+        file_fab.setOnClickListener {
+            val intent = Intent()
+            intent.type = "*/*"
+            val mimeTypes = arrayOf(
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Choose a file"), 111)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 111 && resultCode == RESULT_OK) {
+            val path = data?.data?.path
+            val file = File(path!!)
+            Log.d("esh", file.name)
+        }
     }
 
     private fun getFiles(filesViewModel: FilesViewModel, id: String, filesAdapter: FilesAdapter) {
