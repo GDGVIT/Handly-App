@@ -16,6 +16,7 @@ import com.dscvit.handly.model.auth.SignupRequest
 import com.dscvit.handly.ui.PostAuthActivity
 import com.dscvit.handly.util.*
 import com.dscvit.handly.util.PrefHelper.set
+import com.github.ybq.android.spinkit.style.Circle
 import com.github.ybq.android.spinkit.style.Wave
 import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_signup.*
@@ -41,7 +42,7 @@ class SignupFragment : Fragment() {
         val sharedPref = PrefHelper.customPrefs(requireContext(), Constants.PREF_NAME)
 
         val action = SignupFragmentDirections.actionSignupFragmentToSigninFragment()
-        signup_progress.setIndeterminateDrawable(Wave())
+        signup_progress.setIndeterminateDrawable(Circle())
         signup_progress.hide()
 
         signin_instead_text.setOnClickListener {
@@ -133,7 +134,6 @@ class SignupFragment : Fragment() {
 
     private fun hideUi() {
         titleText.hide()
-        logo.hide()
         registerText.hide()
         signup_name_text.hide()
         signup_email_text.hide()
@@ -144,7 +144,6 @@ class SignupFragment : Fragment() {
 
     private fun showUi() {
         titleText.show()
-        logo.show()
         registerText.show()
         signup_name_text.show()
         signup_email_text.show()
