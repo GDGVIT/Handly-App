@@ -33,14 +33,14 @@
             </intent-filter>
         </activity>
 
-        <service
+        <!--<service
             android:name=".onesignal.NotificationReceivedHandler"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name="com.onesignal.NotificationExtender" />
             </intent-filter>
-        </service>
+        </service>-->
     </application>
 
 </manifest>

@@ -2,7 +2,6 @@ package com.dscvit.handly
 
 import android.app.Application
 import com.dscvit.handly.di.appComponents
-import com.onesignal.OneSignal
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,9 +16,9 @@ class App: Application() {
             modules(appComponents)
         }
 
-        OneSignal.startInit(this)
+        /*OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
             .unsubscribeWhenNotificationsAreDisabled(false)
-            .init()
+            .init()*/
     }
 }

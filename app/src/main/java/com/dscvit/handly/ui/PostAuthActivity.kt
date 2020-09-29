@@ -10,7 +10,6 @@ import com.dscvit.handly.R
 import com.dscvit.handly.util.Constants
 import com.dscvit.handly.util.PrefHelper
 import com.dscvit.handly.util.PrefHelper.set
-import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.activity_post_auth.*
 
 class PostAuthActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class PostAuthActivity : AppCompatActivity() {
 
         val sharedPref = PrefHelper.customPrefs(this, Constants.PREF_NAME)
         Log.d(TAG, sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")!!)
-        Log.d(TAG, OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
+        //Log.d(TAG, OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

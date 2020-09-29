@@ -26,10 +26,12 @@ android {
         versionCode 1
         versionName "1.0"
 
+        /*
         manifestPlaceholders = [
                 onesignal_app_id               : '7369bbb8-ba9a-4ee1-8dfb-3c52bbd69e3f',
                 onesignal_google_project_number: 'REMOTE'
         ]
+         */
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -89,5 +91,5 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
     // One Signal
-    implementation 'com.onesignal:OneSignal:3.14.0'
+    //implementation 'com.onesignal:OneSignal:3.14.0'
 }

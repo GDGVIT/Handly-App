@@ -17,7 +17,6 @@ import com.dscvit.handly.ui.PostAuthActivity
 import com.dscvit.handly.util.*
 import com.dscvit.handly.util.PrefHelper.set
 import com.github.ybq.android.spinkit.style.Circle
-import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_signup.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -93,7 +92,8 @@ class SignupFragment : Fragment() {
                 val signupRequest = SignupRequest(
                     name,
                     password,
-                    OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId ?: "",
+                    //OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId ?: "",
+                    "15334c0e-e5ef-4aa1-a355-6e088564e62b",
                     email
                 )
 
