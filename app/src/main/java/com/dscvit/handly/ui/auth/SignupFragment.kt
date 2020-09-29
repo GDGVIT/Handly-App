@@ -17,7 +17,6 @@ import com.dscvit.handly.ui.PostAuthActivity
 import com.dscvit.handly.util.*
 import com.dscvit.handly.util.PrefHelper.set
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.Wave
 import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_signup.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel

@@ -18,7 +18,6 @@ import com.dscvit.handly.model.collection.UpdateCollection
 import com.dscvit.handly.ui.files.FilesActivity
 import com.dscvit.handly.util.*
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.add_collection_alert.view.*
 import kotlinx.android.synthetic.main.fragment_collections.*
@@ -42,7 +41,7 @@ class CollectionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         collection_progress.hide()
-        collection_progress.setIndeterminateDrawable(Wave())
+        collection_progress.setIndeterminateDrawable(Circle())
 
         val homeViewModel by sharedViewModel<HomeViewModel>()
 

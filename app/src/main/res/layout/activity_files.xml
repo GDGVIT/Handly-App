@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/SpinKitView.Wave"
+        style="@style/SpinKitView.Circle"
         app:SpinKit_Color="@color/primaryColor" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

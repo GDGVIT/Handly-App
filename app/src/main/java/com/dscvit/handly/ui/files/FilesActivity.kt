@@ -17,24 +17,18 @@ import com.dscvit.handly.model.files.FileViewRequest
 import com.dscvit.handly.model.files.UpdateFile
 import com.dscvit.handly.util.*
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_files.*
-import kotlinx.android.synthetic.main.add_collection_alert.view.*
 import kotlinx.android.synthetic.main.modify_collection_alert.view.*
 import kotlinx.android.synthetic.main.notification_alert.view.*
 import kotlinx.android.synthetic.main.upload_file_alert.view.*
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.net.URI
 
 class FilesActivity : AppCompatActivity() {
     lateinit var collectionID: String
@@ -45,7 +39,7 @@ class FilesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_files)
 
         file_progress.hide()
-        file_progress.setIndeterminateDrawable(Wave())
+        file_progress.setIndeterminateDrawable(Circle())
 
         val filesAdapter = FilesAdapter()
         filesRecyclerView.apply {

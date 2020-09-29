@@ -15,7 +15,7 @@
         android:id="@+id/collection_progress"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        style="@style/SpinKitView.Wave"
+        style="@style/SpinKitView.Circle"
         app:SpinKit_Color="@color/primaryColor"
         android:layout_centerInParent="true"/>
 
