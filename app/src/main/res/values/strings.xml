@@ -35,4 +35,5 @@
     <string name="upload_chosen_file">Chosen file:</string>
     <string name="notif_desc">The file was uploaded successfully and we will let you know with a notification when the file is converted into handwritting. You will be able to find the converted file here.</string>
     <string name="notif_okay_button">Okay, Understood</string>
+    <string name="sign_out_string">Sign Out</string>
 </resources>
