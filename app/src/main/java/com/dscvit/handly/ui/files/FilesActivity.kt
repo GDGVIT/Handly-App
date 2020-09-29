@@ -19,7 +19,9 @@ import com.github.ybq.android.spinkit.style.Circle
 import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_files.*
+import kotlinx.android.synthetic.main.add_collection_alert.view.*
 import kotlinx.android.synthetic.main.modify_collection_alert.view.*
+import kotlinx.android.synthetic.main.upload_file_alert.view.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -190,32 +192,64 @@ class FilesActivity : AppCompatActivity() {
             val file = File(cacheDir, contentResolver.getFileName(uri))
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
-            Log.d("esh", file.absolutePath)
-            fileViewModel.uploadFile(
-                collectionID.toRequestBody(),
-                "Test".toRequestBody(),
-                MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())
-            ).observe(this@FilesActivity, Observer {
-                when (it) {
-                    is Result.Loading -> {
-                        file_fab.hide()
-                        filesRecyclerView.hide()
-                        file_progress.show()
-                    }
-                    is Result.Success -> {
-                        filesRecyclerView.show()
-                        file_progress.hide()
-                        file_fab.show()
-                        Log.d("esh", "Doneeeee")
-                    }
-                    is Result.Error -> {
-                        filesRecyclerView.hide()
-                        file_progress.hide()
-                        file_fab.show()
-                        Log.d("esh", it.message!!)
+
+            if (file.length() < 5000000) {
+                val dialogBuilder = MaterialAlertDialogBuilder(this@FilesActivity).create()
+                val dialogView = layoutInflater.inflate(R.layout.upload_file_alert, null)
+                dialogView.upload_progress.setIndeterminateDrawable(Circle())
+                dialogView.upload_progress.hide()
+                dialogView.upload_name.hideSoftKeyboardOnFocusLostEnabled(true)
+
+                dialogView.upload_file_filename.text = file.name
+
+                dialogView.upload_cancel.setOnClickListener {
+                    dialogBuilder.dismiss()
+                }
+
+                dialogView.upload_button.setOnClickListener {
+                    if (dialogView.upload_name.text.isNotBlank()) {
+                        val name = dialogView.upload_name.text.toString().trim()
+                        fileViewModel.uploadFile(
+                            collectionID.toRequestBody(),
+                            name.toRequestBody(),
+                            MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())
+                        ).observe(this@FilesActivity, Observer {
+                            when (it) {
+                                is Result.Loading -> {
+                                    dialogView.upload_title.hide()
+                                    dialogView.upload_name.hide()
+                                    dialogView.upload_button.hide()
+                                    dialogView.upload_cancel.hide()
+                                    dialogView.upload_filename.hide()
+                                    dialogView.upload_file_filename.hide()
+                                    dialogView.upload_progress.show()
+                                }
+                                is Result.Success -> {
+                                    dialogBuilder.dismiss()
+                                    Log.d("esh", "Doneeeee")
+                                }
+                                is Result.Error -> {
+                                    shortToast("Oops something went wrong")
+                                    dialogView.upload_title.show()
+                                    dialogView.upload_name.show()
+                                    dialogView.upload_button.show()
+                                    dialogView.upload_cancel.show()
+                                    dialogView.upload_filename.show()
+                                    dialogView.upload_file_filename.show()
+                                    dialogView.upload_progress.hide()
+                                    Log.d("esh", it.message!!)
+                                }
+                            }
+                        })
                     }
                 }
-            })
+
+                dialogBuilder.setView(dialogView)
+                dialogBuilder.setCancelable(false)
+                dialogBuilder.show()
+            } else {
+                shortToast("File must be less than 5 MB")
+            }
         }
     }
 

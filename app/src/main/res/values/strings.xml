@@ -6,6 +6,8 @@
     <string name="collections_tab_text">Collections</string>
     <string name="settings_tab_text">Settings</string>
     <string name="title_string_create_dialog">Create a new collection</string>
+    <string name="title_string_upload_dialog">Upload</string>
+    <string name="upload_upload_dialog">Upload</string>
     <string name="name_create_dialog">Name</string>
     <string name="create_create_dialog">Create</string>
     <string name="cancel_create_dialog">Cancel</string>
@@ -29,4 +31,5 @@
     <string name="email_error_text">Please enter a valid email</string>
     <string name="password_error_text">Password must have at least 6 characters</string>
     <string name="name_error_text">Please enter a valid name</string>
+    <string name="upload_chosen_file">Chosen file:</string>
 </resources>
