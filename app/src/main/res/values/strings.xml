@@ -7,6 +7,7 @@
     <string name="settings_tab_text">Settings</string>
     <string name="title_string_create_dialog">Create a new collection</string>
     <string name="title_string_upload_dialog">Upload</string>
+    <string name="title_string_notif_dialog">Uploaded Successfully 🔥</string>
     <string name="upload_upload_dialog">Upload</string>
     <string name="name_create_dialog">Name</string>
     <string name="create_create_dialog">Create</string>
@@ -32,4 +33,6 @@
     <string name="password_error_text">Password must have at least 6 characters</string>
     <string name="name_error_text">Please enter a valid name</string>
     <string name="upload_chosen_file">Chosen file:</string>
+    <string name="notif_desc">The file was uploaded successfully and we will let you know with a notification when the file is converted into handwritting. You will be able to find the converted file here.</string>
+    <string name="notif_okay_button">Okay, Understood</string>
 </resources>

@@ -21,6 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_files.*
 import kotlinx.android.synthetic.main.add_collection_alert.view.*
 import kotlinx.android.synthetic.main.modify_collection_alert.view.*
+import kotlinx.android.synthetic.main.notification_alert.view.*
 import kotlinx.android.synthetic.main.upload_file_alert.view.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -212,7 +213,11 @@ class FilesActivity : AppCompatActivity() {
                         fileViewModel.uploadFile(
                             collectionID.toRequestBody(),
                             name.toRequestBody(),
-                            MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())
+                            MultipartBody.Part.createFormData(
+                                "file",
+                                file.name,
+                                file.asRequestBody()
+                            )
                         ).observe(this@FilesActivity, Observer {
                             when (it) {
                                 is Result.Loading -> {
@@ -226,6 +231,20 @@ class FilesActivity : AppCompatActivity() {
                                 }
                                 is Result.Success -> {
                                     dialogBuilder.dismiss()
+
+                                    val notifDialogBuilder =
+                                        MaterialAlertDialogBuilder(this@FilesActivity).create()
+                                    val notifDialogView =
+                                        layoutInflater.inflate(R.layout.notification_alert, null)
+
+                                    notifDialogView.notify_okay_button.setOnClickListener {
+                                        notifDialogBuilder.dismiss()
+                                    }
+
+                                    notifDialogBuilder.setView(notifDialogView)
+                                    notifDialogBuilder.setCancelable(false)
+                                    notifDialogBuilder.show()
+
                                     Log.d("esh", "Doneeeee")
                                 }
                                 is Result.Error -> {
@@ -241,6 +260,8 @@ class FilesActivity : AppCompatActivity() {
                                 }
                             }
                         })
+                    } else {
+                        shortToast("Name can't be empty")
                     }
                 }
 
