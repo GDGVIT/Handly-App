@@ -39,4 +39,5 @@
     <string name="sad_image">sad image</string>
     <string name="empty_collection_string">Nothing here yet!, Add a collection to get started.</string>
     <string name="no_file_string">No files here! Start by uploading a document.</string>
+    <string name="channel_id">com.dscvit.handly.CHANNEL_ID</string>
 </resources>
