@@ -16,8 +16,8 @@ import com.dscvit.handly.model.auth.SigninRequest
 import com.dscvit.handly.ui.PostAuthActivity
 import com.dscvit.handly.util.*
 import com.dscvit.handly.util.PrefHelper.set
-import com.github.ybq.android.spinkit.style.Wave
-import com.onesignal.OneSignal
+import com.dscvit.handly.util.PrefHelper.get
+import com.github.ybq.android.spinkit.style.Circle
 import kotlinx.android.synthetic.main.fragment_signin.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -42,7 +42,7 @@ class SigninFragment : Fragment() {
 
         val action = SigninFragmentDirections.actionSigninFragmentToSignupFragment()
         signin_progress.hide()
-        signin_progress.setIndeterminateDrawable(Wave())
+        signin_progress.setIndeterminateDrawable(Circle())
 
         signup_instead_text.setOnClickListener {
             findNavController().navigate(action)
@@ -79,7 +79,7 @@ class SigninFragment : Fragment() {
             if (email.isValidEmail() && password.length > 5) {
                 val signinRequest = SigninRequest(
                     password,
-                    OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId ?: "",
+                    sharedPref[Constants.PREF_FCM_TOKEN]?:"",
                     email
                 )
 
@@ -119,7 +119,6 @@ class SigninFragment : Fragment() {
 
     private fun hideUi() {
         titleText.hide()
-        logo.hide()
         loginText.hide()
         signin_email_text.hide()
         signin_password_text.hide()
@@ -129,7 +128,6 @@ class SigninFragment : Fragment() {
 
     private fun showUi() {
         titleText.show()
-        logo.show()
         loginText.show()
         signin_email_text.show()
         signin_password_text.show()

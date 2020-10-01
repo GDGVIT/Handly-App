@@ -6,6 +6,9 @@
     <string name="collections_tab_text">Collections</string>
     <string name="settings_tab_text">Settings</string>
     <string name="title_string_create_dialog">Create a new collection</string>
+    <string name="title_string_upload_dialog">Upload</string>
+    <string name="title_string_notif_dialog">Uploaded Successfully 🔥</string>
+    <string name="upload_upload_dialog">Upload</string>
     <string name="name_create_dialog">Name</string>
     <string name="create_create_dialog">Create</string>
     <string name="cancel_create_dialog">Cancel</string>
@@ -29,4 +32,12 @@
     <string name="email_error_text">Please enter a valid email</string>
     <string name="password_error_text">Password must have at least 6 characters</string>
     <string name="name_error_text">Please enter a valid name</string>
+    <string name="upload_chosen_file">Chosen file:</string>
+    <string name="notif_desc">The file was uploaded successfully and we will let you know with a notification when the file is converted into handwriting. You will be able to find the converted file here.</string>
+    <string name="notif_okay_button">Understood</string>
+    <string name="sign_out_string">Sign Out</string>
+    <string name="sad_image">sad image</string>
+    <string name="empty_collection_string">Nothing here yet!, Add a collection to get started.</string>
+    <string name="no_file_string">No files here! Start by uploading a document.</string>
+    <string name="channel_id">com.dscvit.handly.CHANNEL_ID</string>
 </resources>

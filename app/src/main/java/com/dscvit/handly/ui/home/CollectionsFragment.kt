@@ -1,10 +1,14 @@
 package com.dscvit.handly.ui.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,9 +18,9 @@ import com.dscvit.handly.model.Result
 import com.dscvit.handly.model.collection.CreateCollectionRequest
 import com.dscvit.handly.model.collection.DeleteCollectionRequest
 import com.dscvit.handly.model.collection.UpdateCollection
+import com.dscvit.handly.ui.files.FilesActivity
 import com.dscvit.handly.util.*
 import com.github.ybq.android.spinkit.style.Circle
-import com.github.ybq.android.spinkit.style.Wave
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.add_collection_alert.view.*
 import kotlinx.android.synthetic.main.fragment_collections.*
@@ -40,7 +44,9 @@ class CollectionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         collection_progress.hide()
-        collection_progress.setIndeterminateDrawable(Wave())
+        collection_progress.setIndeterminateDrawable(Circle())
+
+        noContentView.hide()
 
         val homeViewModel by sharedViewModel<HomeViewModel>()
 
@@ -53,6 +59,15 @@ class CollectionsFragment : Fragment() {
 
         getCollection(homeViewModel, collectionAdapter)
 
+        collection_recycler_view.addOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClicked(position: Int, view: View) {
+                val intent = Intent(requireContext(), FilesActivity::class.java)
+                intent.putExtra("collectionID", collectionAdapter.collectionList[position].id)
+                intent.putExtra("collectionName", collectionAdapter.collectionList[position].name)
+                startActivity(intent)
+            }
+        })
+
         collection_recycler_view.addOnItemLongClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val dialogBuilder = MaterialAlertDialogBuilder(requireContext()).create()
@@ -60,6 +75,14 @@ class CollectionsFragment : Fragment() {
                 dialogView.modify_progress.setIndeterminateDrawable(Circle())
                 dialogView.modify_progress.hide()
                 dialogView.modify_name.setText(collectionAdapter.collectionList[position].name)
+                dialogView.modify_name.hideSoftKeyboardOnFocusLostEnabled(true)
+                dialogView.modify_name.requestFocus()
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.toggleSoftInput(
+                    InputMethodManager.SHOW_FORCED,
+                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                )
 
                 dialogView.modify_button.setOnClickListener {
                     if (dialogView.modify_name.text.isNotBlank()) {
@@ -120,7 +143,7 @@ class CollectionsFragment : Fragment() {
                                     dialogBuilder.dismiss()
                                 }
                                 "Failed" -> {
-                                    shortToast("Oops something went wrong")
+                                    shortToast("Oops, something went wrong")
 
                                     dialogView.modify_name.show()
                                     dialogView.modify_cancel.show()
@@ -151,6 +174,7 @@ class CollectionsFragment : Fragment() {
             val dialogView = layoutInflater.inflate(R.layout.add_collection_alert, null)
             dialogView.create_progress.setIndeterminateDrawable(Circle())
             dialogView.create_progress.hide()
+            dialogView.create_name.hideSoftKeyboardOnFocusLostEnabled(true)
 
             dialogView.create_button.setOnClickListener {
                 if (dialogView.create_name.text.isNotBlank()) {
@@ -207,18 +231,27 @@ class CollectionsFragment : Fragment() {
                 is Result.Loading -> {
                     collection_recycler_view.hide()
                     collection_progress.show()
+                    noContentView.hide()
                     collection_fab.hide()
                 }
                 is Result.Success -> {
                     val collections = it.data!!
-                    collectionsAdapter.updateCollections(collections)
-                    collection_recycler_view.show()
+                    if (collections.isEmpty()) {
+                        collection_recycler_view.hide()
+                        noContentView.show()
+                    } else {
+                        collectionsAdapter.updateCollections(collections)
+                        noContentView.hide()
+                        collection_recycler_view.show()
+                    }
                     collection_progress.hide()
                     collection_fab.show()
                 }
                 is Result.Error -> {
                     Log.d(TAG, it.message!!)
+                    shortToast("Oops, something went wrong!")
                     collection_progress.hide()
+                    collection_fab.show()
                 }
             }
         })

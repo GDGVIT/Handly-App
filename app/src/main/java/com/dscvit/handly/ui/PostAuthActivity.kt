@@ -1,15 +1,15 @@
 package com.dscvit.handly.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import com.dscvit.handly.R
 import com.dscvit.handly.util.Constants
 import com.dscvit.handly.util.PrefHelper
-import com.google.android.material.tabs.TabLayout
-import com.onesignal.OneSignal
+import com.dscvit.handly.util.PrefHelper.set
 import kotlinx.android.synthetic.main.activity_post_auth.*
 
 class PostAuthActivity : AppCompatActivity() {
@@ -20,40 +20,28 @@ class PostAuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_auth)
 
+        setSupportActionBar(toolbar)
+
         val sharedPref = PrefHelper.customPrefs(this, Constants.PREF_NAME)
         Log.d(TAG, sharedPref.getString(Constants.PREF_AUTH_TOKEN, "")!!)
-        Log.d(TAG, OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
-
-        val navController = Navigation.findNavController(this, R.id.post_auth_nav_host)
-        val navOptions = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.fade_in)
-            .setExitAnim(R.anim.fade_out)
-            .setPopEnterAnim(R.anim.fade_in)
-            .setPopExitAnim(R.anim.fade_out)
-            .setPopUpTo(navController.graph.startDestination, false)
-            .build()
-
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab!!.position) {
-                    0 -> {
-                        navController.navigate(R.id.collectionsFragment, null, navOptions)
-                    }
-                    1 -> {
-                        navController.navigate(R.id.settingsFragment, null, navOptions)
-                    }
-                }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-        })
+        //Log.d(TAG, OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        tab_layout.getTabAt(0)!!.select()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_sign_out) {
+            val sharedPref = PrefHelper.customPrefs(this, Constants.PREF_NAME)
+            sharedPref[Constants.PREF_AUTH_TOKEN] = ""
+            sharedPref[Constants.PREF_IS_AUTH] = false
+
+            val intent = Intent(this, PreAuthActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
